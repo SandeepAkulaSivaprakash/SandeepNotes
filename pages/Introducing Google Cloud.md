@@ -101,5 +101,5 @@
 	- Quotas also available to avoid surprises
 		- Rate Quota - reset after a specific time
 		- Allocation Quota - Governs the number of Resources
-- ![image.png](../assets/image_1688604107730_0.png)
+-
 -

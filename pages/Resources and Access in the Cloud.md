@@ -1,0 +1,52 @@
+- Google Cloud resource Hierarchy
+	- Function Structure of Google Cloud #card
+		- 4 Levels
+			- [[GCP Resources]] - VMs Storage Tables or anything else
+			- [[GCP Projects]] - Resources are Organized into Projects
+				- Projects are the basis to enable Google Cloud Services
+				- Each resource can belong to only One Project
+				- Identifier of a Project #card
+					- Project ID | Globally Unique | Assisgned by GCP when created | Cannot be changed after Creation
+					- Project Name | Need not be Unique | Can be changed
+					- Project Number | Unique | google cloud assigned | cannot change after creation
+					- Resource Manager Tool that can help with
+						- list Projects
+						- Create Projects
+						- Update
+						- Delete
+						- Recover
+						- Access thro RPC API and REST API
+			- [[GCP Folders]] - Projects are organized into Folders
+				- Resources inherit policies from folder level
+				- can contain other folders or Projects
+				- ORG needs to be created to use folders
+			- [[GCP Organization]] - Top level encompasses everything above
+				- Designate Org Policy admin and project creator
+				- Workspace customer - Automatically creates Org Else create with IAM
+		- Its important as it this is how Policies are applied
+		- Policies are inherited from Org to Folder to Projects to Resources
+- Identity and Access Management [[IAM]]
+	- Admins can define who can do what
+	- Who can be a google account, google group, service account, cloud identity domain
+	- Role is a collection of permissions 3 Types
+		- Basic Role - broad in scope Not reccomended
+			- owner -view ,make changes ,set (roles and permissions) and billing
+			- editor -view and make changes
+			- viewer - Access resources no changes
+			- billing admin - View and billing
+		- Predefined IAM roles - Specific set of Defined actions Like VM admin
+		- Custom IAM roles - can use Least Privilege  method to give what you need(Only on Project or ORG level)
+- Service Accounts
+	- Communication between Cloud resources
+	- Named with Email Addess
+	- No Passwords Use cryptographic keys
+	- they need to be managed
+- Cloud Identity
+	- Login Using AD account or LDAP
+- Interacting with Google Cloud
+	- Google Cloud Console -  GUI can do everything
+	- SDK shell - gcloud ,gsutil ,bq
+	- API - To interact with GCP programmatically. Provides Client Libraries in various Languages
+	- Mobile APP - start stop and ssh to VM and Start and stop Instances with Billing
+- Lab Obeservations
+	-
