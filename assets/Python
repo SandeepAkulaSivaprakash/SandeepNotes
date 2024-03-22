@@ -1,0 +1,45 @@
+from google.cloud import storage
+import os
+
+def check_trigger_and_process(bucket_name, trigger_file_name, actual_file_name, archive_folder_name, new_trigger_file_name):
+    # Initialize the storage client
+    storage_client = storage.Client()
+
+    # Get the bucket
+    bucket = storage_client.bucket(bucket_name)
+
+    # Check if the trigger file exists
+    trigger_blob = bucket.blob(trigger_file_name)
+    if not trigger_blob.exists():
+        print(f"Trigger file '{trigger_file_name}' not found in the bucket.")
+        return
+
+    # Download the actual file
+    actual_blob = bucket.blob(actual_file_name)
+    actual_file_path = '/tmp/' + actual_file_name  # Adjust the path as needed
+    actual_blob.download_to_filename(actual_file_path)
+    print(f"Actual file '{actual_file_name}' downloaded to '{actual_file_path}'.")
+
+    # Delete the trigger file
+    trigger_blob.delete()
+    print(f"Trigger file '{trigger_file_name}' deleted.")
+
+    # Move the actual file to the archive folder
+    archive_blob = bucket.blob(archive_folder_name + '/' + actual_file_name)
+    archive_blob.upload_from_filename(actual_file_path)
+    print(f"Actual file '{actual_file_name}' moved to archive folder '{archive_folder_name}'.")
+
+    # Create a new trigger file
+    new_trigger_blob = bucket.blob(new_trigger_file_name)
+    new_trigger_blob.upload_from_string('')
+    print(f"New trigger file '{new_trigger_file_name}' created.")
+
+if __name__ == "__main__":
+    # Replace these variables with your actual values
+    bucket_name = 'your_bucket_name'
+    trigger_file_name = 'trigger_file.txt'
+    actual_file_name = 'actual_file.txt'
+    archive_folder_name = 'archive'
+    new_trigger_file_name = 'new_trigger_file.txt'
+
+    check_trigger_and_process(bucket_name, trigger_file_name, actual_file_name, archive_folder_name, new_trigger_file_name)
