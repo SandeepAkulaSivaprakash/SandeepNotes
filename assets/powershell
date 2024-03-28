@@ -1,0 +1,30 @@
+# Set the bucket name and file name
+$bucketName = "your-bucket-name"
+$fileName = "your-file-name"
+
+# Set the local folder path to download the file
+$localFolderPath = "C:\path\to\your\local\folder"
+
+# Check if gsutil is installed
+$gsutilPath = "C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin\gsutil.cmd"
+if (-not (Test-Path $gsutilPath)) {
+    Write-Host "Error: gsutil not found. Make sure Google Cloud SDK is installed." -ForegroundColor Red
+    Exit
+}
+
+# Check if the file exists in the bucket
+$fileExists = & $gsutilPath ls gs://$bucketName/$fileName 2>$null
+if (-not $fileExists) {
+    Write-Host "File '$fileName' not found in the bucket '$bucketName'." -ForegroundColor Yellow
+    Exit
+}
+
+# Download the file to the specified local folder
+& $gsutilPath cp gs://$bucketName/$fileName $localFolderPath
+
+# Check if download was successful
+if ($?) {
+    Write-Host "File '$fileName' downloaded successfully to '$localFolderPath'." -ForegroundColor Green
+} else {
+    Write-Host "Error downloading file '$fileName' to '$localFolderPath'." -ForegroundColor Red
+}
