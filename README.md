@@ -21,8 +21,8 @@ input_file = "fixed_length_data.txt"
 output_file = "parsed_data.csv"
 
 # Read the fixed-length file, parse it, and save as CSV
-with open(input_file, "r") as infile, open(output_file, "w", newline="") as outfile:
-    writer = csv.DictWriter(outfile, fieldnames=[field[0] for field in schema])
+with open(input_file, "r") as infile, open(output_file, "w", newline="", encoding="utf-8") as outfile:
+    writer = csv.DictWriter(outfile, fieldnames=[field[0] for field in schema], quoting=csv.QUOTE_MINIMAL)
     writer.writeheader()
 
     for line in infile:
