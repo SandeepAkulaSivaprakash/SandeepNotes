@@ -1,7 +1,0 @@
-- [[Cloud Bigtable]]
-- [[Cloud Storage]]
-- [[Cloud SQL]]
-- [[Cloud Spanner]]
-- [[Cloud Datastore]]
--
--

@@ -1,3 +1,0 @@
-- [[Google Cloud Fundamentals: Code Infrastructure]]
-- [[Introduction to the data and machine learning on google cloud]]
--

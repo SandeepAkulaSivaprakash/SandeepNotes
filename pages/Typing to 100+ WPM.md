@@ -1,6 +1,0 @@
-- Use https://monkeytype.com
-- https://www.keybr.com/
-- https://play.typeracer.com/
-- https://www.typing.com/student/lessons
-- TODO Daily task
--
