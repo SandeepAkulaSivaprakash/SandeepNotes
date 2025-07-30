@@ -1,16 +1,22 @@
 Sub CheckBox_Timestamp_RightCell()
     Dim cb As CheckBox
+    Dim parts As Variant
+    Dim targetCell As Range
+
     Set cb = ActiveSheet.CheckBoxes(Application.Caller)
 
-    Dim targetCell As Range
-    Set targetCell = cb.TopLeftCell.Offset(0, 1) ' Cell to the right of checkbox
-
-    With targetCell
-        If cb.Value = xlOff Then
-            .Value = ""
-        Else
-            .Value = Format(Now, "yyyy-mm-dd hh:mm:ss")
-            .HorizontalAlignment = xlRight
-        End If
-    End With
+    ' Extract the row and column from the checkbox name (we’ll store it when creating the checkbox)
+    parts = Split(cb.Name, "_")
+    If UBound(parts) = 2 Then
+        ' Use stored row and column to get the original cell
+        Set targetCell = ActiveSheet.Cells(parts(1), parts(2)).Offset(0, 1) ' Right of original cell
+        With targetCell
+            If cb.Value = xlOff Then
+                .Value = ""
+            Else
+                .Value = Format(Now, "yyyy-mm-dd hh:mm:ss")
+                .HorizontalAlignment = xlRight
+            End If
+        End With
+    End If
 End Sub
