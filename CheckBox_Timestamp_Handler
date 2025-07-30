@@ -1,11 +1,14 @@
 Sub CheckBox_Timestamp_Handler()
     Dim cb As CheckBox
+    Dim targetAddress As String
     Dim targetCell As Range
 
     Set cb = ActiveSheet.CheckBoxes(Application.Caller)
 
-    ' Get the cell where the timestamp should go (stored in Tag)
-    Set targetCell = ActiveSheet.Range(cb.Tag)
+    ' Extract the address from the checkbox's name (e.g., "CB_C2" → "C2")
+    targetAddress = Replace(cb.Name, "CB_", "")
+
+    Set targetCell = ActiveSheet.Range(targetAddress)
 
     With targetCell
         If cb.Value = xlOff Then
