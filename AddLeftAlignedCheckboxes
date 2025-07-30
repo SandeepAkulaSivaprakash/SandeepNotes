@@ -1,22 +1,23 @@
-Sub AddLeftAlignedCheckboxes_AssignedToRightCell()
+Sub AddLeftAlignedCheckboxes()
     Dim Rng As Range
     Dim SelectionRng As Range
     Dim WSHEET As Worksheet
     Dim cb As CheckBox
 
-    On Error Resume Next
     Set WSHEET = ActiveSheet
 
-    ' Ask user for the target range
-    Set SelectionRng = Application.InputBox("Select range to insert checkboxes (header will be skipped):", "Checkbox Placement", Selection.Address, Type:=8)
+    ' Prompt user to select a range
+    Set SelectionRng = Application.InputBox( _
+        "Select range to insert checkboxes (header will be skipped):", _
+        "Checkbox Placement", Selection.Address, Type:=8)
 
     If SelectionRng Is Nothing Then Exit Sub
 
     Application.ScreenUpdating = False
 
     For Each Rng In SelectionRng.Cells
-        If Rng.Row <> SelectionRng.Rows(1).Row Then ' skip header row
-            ' Remove existing checkbox if any
+        If Rng.Row <> SelectionRng.Rows(1).Row Then ' skip header
+            ' Remove existing checkbox if needed
             For Each cb In WSHEET.CheckBoxes
                 If cb.TopLeftCell.Address = Rng.Address Then cb.Delete
             Next
@@ -24,13 +25,11 @@ Sub AddLeftAlignedCheckboxes_AssignedToRightCell()
             Set cb = WSHEET.CheckBoxes.Add(Rng.Left + 2, Rng.Top + 2, Rng.Width - 4, Rng.Height - 4)
 
             With cb
-                .Caption = "" ' no text
-                .OnAction = "CheckBox_Timestamp_RightCell"
+                .Caption = ""
                 .Placement = xlMoveAndSize
+                .OnAction = "CheckBox_Timestamp_Handler"
+                .Tag = Rng.Offset(0, 1).Address  ' store target cell (right cell)
             End With
-
-            ' Optional: clear the target timestamp cell
-            Rng.Offset(0, 1).ClearContents
         End If
     Next
 
