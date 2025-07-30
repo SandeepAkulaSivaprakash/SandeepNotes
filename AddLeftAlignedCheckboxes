@@ -3,6 +3,7 @@ Sub AddLeftAlignedCheckboxes()
     Dim SelectionRng As Range
     Dim WSHEET As Worksheet
     Dim cb As CheckBox
+    Dim cbName As String
 
     Set WSHEET = ActiveSheet
 
@@ -24,11 +25,13 @@ Sub AddLeftAlignedCheckboxes()
 
             Set cb = WSHEET.CheckBoxes.Add(Rng.Left + 2, Rng.Top + 2, Rng.Width - 4, Rng.Height - 4)
 
+            cbName = "CB_" & Rng.Offset(0, 1).Address(False, False) ' Store target cell address (like C2)
+
             With cb
+                .Name = cbName
                 .Caption = ""
                 .Placement = xlMoveAndSize
                 .OnAction = "CheckBox_Timestamp_Handler"
-                .Tag = Rng.Offset(0, 1).Address  ' store target cell (right cell)
             End With
         End If
     Next
