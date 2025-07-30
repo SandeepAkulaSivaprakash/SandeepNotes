@@ -1,19 +1,16 @@
-Sub CheckBox_Timestamp_SameCell_RightAligned()
+Sub CheckBox_Timestamp_RightCell()
     Dim cb As CheckBox
-    Dim cell As Range
-
     Set cb = ActiveSheet.CheckBoxes(Application.Caller)
-    Set cell = cb.TopLeftCell
 
-    ' Ensure we're referencing the correct cell visually
-    If Not Intersect(cell, ActiveSheet.UsedRange) Is Nothing Then
-        With cell
-            If cb.Value = xlOff Then
-                .Value = ""
-            Else
-                .Value = Format(Now, "yyyy-mm-dd hh:mm:ss") ' or your preferred format
-                .HorizontalAlignment = xlRight              ' ✅ Right align
-            End If
-        End With
-    End If
+    Dim targetCell As Range
+    Set targetCell = cb.TopLeftCell.Offset(0, 1) ' Cell to the right of checkbox
+
+    With targetCell
+        If cb.Value = xlOff Then
+            .Value = ""
+        Else
+            .Value = Format(Now, "yyyy-mm-dd hh:mm:ss")
+            .HorizontalAlignment = xlRight
+        End If
+    End With
 End Sub
