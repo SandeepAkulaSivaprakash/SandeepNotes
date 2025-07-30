@@ -1,0 +1,18 @@
+Sub CheckBox_Timestamp_Handler()
+    Dim cb As CheckBox
+    Dim targetCell As Range
+
+    Set cb = ActiveSheet.CheckBoxes(Application.Caller)
+
+    ' Get the cell where the timestamp should go (stored in Tag)
+    Set targetCell = ActiveSheet.Range(cb.Tag)
+
+    With targetCell
+        If cb.Value = xlOff Then
+            .Value = ""
+        Else
+            .Value = Format(Now, "yyyy-mm-dd hh:mm:ss")
+            .HorizontalAlignment = xlRight
+        End If
+    End With
+End Sub
