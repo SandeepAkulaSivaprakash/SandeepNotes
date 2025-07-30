@@ -1,0 +1,13 @@
+Sub CheckBox_Timestamp_SameCell_RightAligned()
+    Dim cb As CheckBox
+    Set cb = ActiveSheet.CheckBoxes(Application.Caller)
+
+    With cb.TopLeftCell
+        If cb.Value = xlOff Then
+            .Value = ""
+        Else
+            .Value = Date & " " & Time
+            .HorizontalAlignment = xlRight ' ✅ Right-align the text
+        End If
+    End With
+End Sub
