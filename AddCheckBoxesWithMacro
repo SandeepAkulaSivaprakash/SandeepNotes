@@ -1,0 +1,26 @@
+Sub AddCheckBoxesWithMacro()
+    Dim Rng As Range
+    Dim SelectionRng As Range
+    Dim WSHEET As Worksheet
+    Dim cb As CheckBox
+
+    On Error Resume Next
+    xTitleId = "Select Range"
+
+    Set SelectionRng = Application.InputBox("Range", xTitleId, Selection.Address, Type:=8)
+    Set WSHEET = Application.ActiveSheet
+
+    Application.ScreenUpdating = False
+
+    For Each Rng In SelectionRng
+        Set cb = WSHEET.CheckBoxes.Add(Rng.Left + 2, Rng.Top + 2, Rng.Width - 4, Rng.Height - 4)
+
+        With cb
+            .Caption = ""                      ' No label
+            .LinkedCell = ""                   ' Not linking to any cell
+            .OnAction = "CheckBox_Timestamp_SameCell_RightAligned" ' ✅ Assign macro
+        End With
+    Next
+
+    Application.ScreenUpdating = True
+End Sub
