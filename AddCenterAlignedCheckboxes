@@ -1,0 +1,39 @@
+Sub AddCenterAlignedCheckboxes()
+    Dim Rng As Range
+    Dim SelectionRng As Range
+    Dim WSHEET As Worksheet
+    Dim cb As CheckBox
+
+    ' Get active sheet
+    Set WSHEET = ActiveSheet
+
+    ' Prompt user to select range
+    Set SelectionRng = Application.InputBox( _
+        "Select range to insert checkboxes:", _
+        "Center-Aligned Checkboxes", Selection.Address, Type:=8)
+
+    If SelectionRng Is Nothing Then Exit Sub
+
+    Application.ScreenUpdating = False
+
+    ' Loop through each cell in selection
+    For Each Rng In SelectionRng.Cells
+        ' Remove existing checkbox in cell if any
+        For Each cb In WSHEET.CheckBoxes
+            If cb.TopLeftCell.Address = Rng.Address Then cb.Delete
+        Next
+
+        ' Add checkbox centered within the cell
+        Set cb = WSHEET.CheckBoxes.Add( _
+            Rng.Left + (Rng.Width / 2) - 7, _
+            Rng.Top + (Rng.Height / 2) - 7, _
+            14, 14) ' Checkbox size is roughly 14x14 points
+
+        With cb
+            .Caption = ""
+            .Placement = xlMoveAndSize
+        End With
+    Next
+
+    Application.ScreenUpdating = True
+End Sub
