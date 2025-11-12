@@ -1,0 +1,56 @@
+# BigQuery Table Generator - Setup & Usage
+
+## 📋 Requirements
+
+Install the required Python package:
+```bash
+pip install python-dotenv
+```
+
+## 🔧 Setup
+
+1. **Create your `.env` file** with your BigQuery configuration:
+   ```
+   BIGQUERY_PROJECT_ID=your-project-id
+   BIGQUERY_DATASET=your_dataset_name
+   TARGET_DIRECTORY=./output
+   ```
+
+2. **Customize `datatype_mappings.json`** (optional):
+   - Add or modify datatype mappings as needed
+   - Format: `"source_type": "BIGQUERY_TYPE"`
+
+## 🚀 Usage
+
+Run the script with your CSV file:
+```bash
+python bigquery_table_gen.py Sample.csv
+```
+
+## 📤 Output
+
+The script generates:
+- A SQL file in your `TARGET_DIRECTORY`
+- Filename format: `bigquery_tables_YYYYMMDD_HHMMSS.sql`
+- Contains DROP TABLE IF EXISTS and CREATE TABLE statements
+
+## 📝 CSV Format
+
+Your input CSV should have these columns:
+- `Table Name` - Name of the table (can be blank for continuation)
+- `Column` - Column name
+- `Datatype` - Source datatype (mapped via settings file)
+- `Required` - Y/N for NOT NULL constraint
+- `Description` - Column description (added as OPTIONS)
+
+## ✨ Example Output
+
+```sql
+DROP TABLE IF EXISTS `project.dataset.Account`;
+
+CREATE TABLE `project.dataset.Account` (
+  Account_uid STRING NOT NULL OPTIONS(description="asjdhfsjd"),
+  Account_holder_uuid STRING OPTIONS(description="ajhsdf"),
+  Create_date TIMESTAMP NOT NULL OPTIONS(description="akjshjdf")
+);
+```
