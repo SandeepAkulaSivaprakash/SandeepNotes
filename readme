@@ -1,30 +1,84 @@
-# BigQuery Table Generator - Setup & Usage
+# BigQuery Table Generator - Windows Setup & Usage
 
-## 📋 Requirements
+## 🖥️ Windows Setup in Visual Studio Code
 
-Install the required Python package:
-```bash
-pip install python-dotenv
-```
+### Step 1: Install Python
+1. Download Python from [python.org](https://www.python.org/downloads/)
+2. **Important**: Check "Add Python to PATH" during installation
+3. Verify installation by opening Command Prompt and typing:
+   ```cmd
+   python --version
+   ```
 
-## 🔧 Setup
+### Step 2: Install Visual Studio Code
+1. Download from [code.visualstudio.com](https://code.visualstudio.com/)
+2. Install the **Python extension** by Microsoft:
+   - Open VS Code
+   - Click Extensions icon (or press `Ctrl+Shift+X`)
+   - Search for "Python"
+   - Install the extension by Microsoft
 
-1. **Create your `.env` file** with your BigQuery configuration:
+### Step 3: Create Your Project Folder
+1. Create a new folder (e.g., `C:\BigQueryGenerator`)
+2. Open VS Code
+3. Go to **File > Open Folder** and select your project folder
+
+### Step 4: Set Up Project Files
+1. In VS Code, create these files in your project folder:
+   - `bigquery_table_gen.py` (copy the Python script)
+   - `datatype_mappings.json` (copy the mappings)
+   - `.env` (copy and customize with your settings)
+   - Put your `Sample.csv` file here too
+
+2. Create a `.env` file with your configuration:
    ```
    BIGQUERY_PROJECT_ID=your-project-id
    BIGQUERY_DATASET=your_dataset_name
-   TARGET_DIRECTORY=./output
+   TARGET_DIRECTORY=C:/output
+   ```
+   **Note**: Use forward slashes `/` or double backslashes `\\` in Windows paths
+
+### Step 5: Install Required Package
+1. In VS Code, open a new terminal:
+   - Go to **Terminal > New Terminal** (or press `` Ctrl+` ``)
+2. Install the required package:
+   ```cmd
+   pip install python-dotenv
    ```
 
-2. **Customize `datatype_mappings.json`** (optional):
-   - Add or modify datatype mappings as needed
-   - Format: `"source_type": "BIGQUERY_TYPE"`
+## 🚀 Running the Script in VS Code
 
-## 🚀 Usage
+### Method 1: Using the Terminal
+1. Open Terminal in VS Code (`` Ctrl+` ``)
+2. Run the script:
+   ```cmd
+   python bigquery_table_gen.py Sample.csv
+   ```
 
-Run the script with your CSV file:
-```bash
-python bigquery_table_gen.py Sample.csv
+### Method 2: Using VS Code's Run Button
+1. Open `bigquery_table_gen.py` in VS Code
+2. Click the **Run Python File** button (▶️) in the top right
+3. **Note**: This method requires modifying the script to hardcode the CSV filename, so Method 1 is recommended
+
+### Method 3: Create a Batch File (Easy Double-Click)
+1. Create a file named `run_generator.bat` in your project folder
+2. Add this content:
+   ```batch
+   @echo off
+   python bigquery_table_gen.py Sample.csv
+   pause
+   ```
+3. Double-click `run_generator.bat` to run the script
+
+## 📋 Project Structure
+```
+C:\BigQueryGenerator\
+├── bigquery_table_gen.py
+├── datatype_mappings.json
+├── .env
+├── Sample.csv
+└── output\
+    └── bigquery_tables_20241112_143022.sql
 ```
 
 ## 📤 Output
@@ -37,7 +91,7 @@ The script generates:
 ## 📝 CSV Format
 
 Your input CSV should have these columns:
-- `Table Name` - Name of the table (can be blank for continuation)
+- `Table Name` - Name of the table (can be blank for continuation rows)
 - `Column` - Column name
 - `Datatype` - Source datatype (mapped via settings file)
 - `Required` - Y/N for NOT NULL constraint
@@ -54,3 +108,21 @@ CREATE TABLE `project.dataset.Account` (
   Create_date TIMESTAMP NOT NULL OPTIONS(description="akjshjdf")
 );
 ```
+
+## 🔧 Troubleshooting
+
+### "python is not recognized"
+- Python wasn't added to PATH during installation
+- Reinstall Python and check "Add Python to PATH"
+
+### "No module named 'dotenv'"
+- Run: `pip install python-dotenv`
+
+### "File not found" error
+- Check that your CSV file is in the same folder
+- Use the full path: `python bigquery_table_gen.py C:\path\to\Sample.csv`
+
+### Path issues in .env file
+- Use forward slashes: `C:/output`
+- Or double backslashes: `C:\\output`
+- Don't use single backslashes: ~~`C:\output`~~ ❌
