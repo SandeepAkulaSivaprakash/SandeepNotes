@@ -108,6 +108,10 @@ def generate_bigquery_sql(tables, datatype_mappings, project_id, dataset):
             bq_type = map_datatype(col['datatype'], datatype_mappings)
             nullable = "NOT NULL" if col['required'] else ""
             
+            # Debug output for datatype mapping
+            if col['datatype'].lower() not in [k.lower() for k in datatype_mappings.keys()]:
+                print(f"  Info: Mapping '{col['datatype']}' -> '{bq_type}'")
+            
             # Build column definition
             col_def = f"  {col['column']} {bq_type}"
             if nullable:
@@ -156,7 +160,15 @@ def main():
         sys.exit(1)
     
     # Load datatype mappings
-    datatype_mappings = load_settings(settings_file)
+    try:
+        datatype_mappings = load_settings(settings_file)
+        print(f"Loaded {len(datatype_mappings)} datatype mappings from {settings_file}")
+    except FileNotFoundError:
+        print(f"Error: Settings file '{settings_file}' not found")
+        sys.exit(1)
+    except json.JSONDecodeError:
+        print(f"Error: Invalid JSON in '{settings_file}'")
+        sys.exit(1)
     
     # Parse CSV
     tables = parse_csv(csv_file)
